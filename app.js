@@ -20,8 +20,8 @@ mongoose.connect(process.env.MONGODB_URI)
 var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
-app.set('view engine', 'hbs');
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 //ROUTES GO HERE
 
