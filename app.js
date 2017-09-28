@@ -37,7 +37,7 @@ app.post('/handletext', function(req, res){
     from: "(207) 248-8331",
     body: "Hello",
   })
-  res.status(200).send(message);
+  res.status(200);
 });
 
 //start up our server
