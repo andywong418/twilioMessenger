@@ -124,7 +124,7 @@ app.post('/grouptext', function(req, res){
                 body:  "[Admin]: "  + req.body.Body,
               });
           });
-          res.end();
+          res.send("Success");
         }
       });
     }
