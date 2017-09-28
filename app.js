@@ -116,7 +116,7 @@ app.post('/grouptext', function(req, res){
   console.log("HERE!!!!!!")
   var admin = {number: "1234567890",
   name: "Admin",
-  imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}
+  imgURL: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}
   Message.create({sender: admin, content: req.body.Body, receivedAt: new Date()}, function(err){
     console.log(err);
     if(!err){
