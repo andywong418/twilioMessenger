@@ -117,17 +117,12 @@ app.post('/grouptext', function(req, res){
     if(!err){
       User.find(function(err, users){
         if(!err){
-          var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
           users.forEach(function(user){
-            if (user.name !== sentFrom){
               var message = client.messages.create({
                 to: user.number,
                 from: "(207) 248-8331",
-                body:  "[" + sentFrom + "]: "  + req.body.Body,
-              })
-
-            }
-
+                body:  "[Admin]: "  + req.body.Body,
+              });
           });
           res.end();
         }

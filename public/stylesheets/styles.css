@@ -58,13 +58,18 @@ html, body {
   width: 40%;
 }
 
+#message_text_container::-webkit-scrollbar {
+    display: none;
+}
+
 #send_message_container {
   background-color: #3c75cb;
   position: absolute;
   bottom: 16%;
-  padding: 5px;
+  padding: 5px
+  padding-bottom: 20px;
   width: 39%;
-  height: 5%;
+  height: 4%;
 }
 
 #group-message-input {

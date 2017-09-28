@@ -3,8 +3,21 @@ $(document).ready(function(){
   setInterval(update, 3000);
 
   $("#group-message-button").on("click", function(err){
-    alert();
+    $.ajax({
+      url: "https://stormy-basin-23393.herokuapp.com/grouptext",
+      method: "post",
+      data: {
+        Body: $("#group-message-input").val();
+      },
+      success: function(response){
+        var content = $("#group-message-input").val();
+        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"> [Admin]: ${content}</li>`);
+        $('#messages_ul_container').append(messageLi);
+        $("#group-message-input").val();
+      }
+    })
   });
+
 
 });
 
@@ -37,7 +50,6 @@ function update(){
           var curMessage = response.messages[i];
           var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
           $('#messages_ul_container').append(messageLi);
-          updateScroll();
         }
       }
     },
@@ -45,8 +57,4 @@ function update(){
       console.log(err);
     }
   });
-}
-function updateScroll(){
-    var element = document.getElementById("messages_ul_container");
-    element.scrollTop = element.scrollHeight;
 }
