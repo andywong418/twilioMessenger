@@ -34,6 +34,7 @@ app.get('/', function(req, res){
 
 app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
+  console.log(message);
   if (message[0] === "New"){
     User.create({number: req.body.From, name: message[1]}, function(err){
       if(!err){
