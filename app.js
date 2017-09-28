@@ -36,13 +36,13 @@ app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
   console.log(message);
   if (message[0] === "New"){
-    User.create({number: req.body.From, name: message[1]}, function(err){
+    User.create({number: req.body.From, name: message[1]}, function(err, user){
       if(!err){
-        console.log(mesage)
+        console.log(user)
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
-          body: "Hello, thanks for signing up " + message[1] +"!",
+          body: "Hello, thanks for signing up "  +"!",
         })
         res.sendStatus(200);
       }
