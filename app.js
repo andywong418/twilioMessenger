@@ -51,6 +51,7 @@ app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
     User.findOne({number: req.body.From}, function(err, data){
+      var message = req.body.Body.split(" ")
       if(!err && data && message.length !== 3){
         var message = client.messages.create({
           to: req.body.From,
