@@ -129,9 +129,10 @@ app.post('/grouptext', function(req, res){
           res.send("Success");
         }
       });
-      else{
-        console.log("FUCk!")
-      }
+
+    }
+    else{
+      console.log("FUCk!")
     }
   });
 });
