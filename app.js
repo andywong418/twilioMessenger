@@ -26,7 +26,7 @@ app.set('view engine', 'handlebars');
 //ROUTES GO HERE
 
 app.get('/', function(req, res){
-  Message.find(function(err, messages){
+  Message.find().populate("send").exec(function(err, messages){
     if(!err){
       res.render("viewmessages", {messages: messages})
     }
@@ -34,7 +34,7 @@ app.get('/', function(req, res){
 })
 
 app.get('/messages', function(req, res){
-  Message.find(function(err, messages){
+  Message.find().populate("send").exec(function(err, messages){
     if(!err){
       res.send({messages: messages});
     }
@@ -72,27 +72,29 @@ app.post('/handletext', function(req, res){
 
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
-      Message.create({sender: userMessage, content: req.body.Body, receivedAt: new Date()}, function(err){
-        if(!err){
-          User.find(function(err, users){
-            if(!err){
-              var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
-              users.forEach(function(user){
-                if (user.name !== sentFrom){
-                  var message = client.messages.create({
-                    to: user.number,
-                    from: "(207) 248-8331",
-                    body:  "[" + sentFrom + "]: "  + req.body.Body,
-                  })
+      if (userMessage){
+        Message.create({sender: userMessage, content: req.body.Body, receivedAt: new Date()}, function(err){
+          if(!err){
+            User.find(function(err, users){
+              if(!err){
+                var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+                users.forEach(function(user){
+                  if (user.name !== sentFrom){
+                    var message = client.messages.create({
+                      to: user.number,
+                      from: "(207) 248-8331",
+                      body:  "[" + sentFrom + "]: "  + req.body.Body,
+                    })
 
-                }
+                  }
 
-              });
-              res.end();
-            }
-          });
-        }
-      });
+                });
+                res.end();
+              }
+            });
+          }
+        });
+      }
     })
 
   }
