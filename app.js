@@ -33,7 +33,7 @@ app.get('/', function(req, res){
 app.post('/handletext', function(req, res){
   console.log(req.body);
   var message = client.messages.create({
-    to: re.body.From,
+    to: req.body.From,
     from: "(207) 248-8331",
     body: "Hello",
   })
