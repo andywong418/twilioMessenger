@@ -72,7 +72,7 @@ app.post('/handletext', function(req, res){
 
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
-      Message.create({sender: user, content: req.body.Body, receivedAt: new Date()}, function(err){
+      Message.create({sender: userMessage, content: req.body.Body, receivedAt: new Date()}, function(err){
         if(!err){
           User.find(function(err, users){
             if(!err){
