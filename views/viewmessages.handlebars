@@ -3,3 +3,19 @@
     <li>[{{this.from}} sent at {{this.receivedAt}}]: {{this.content}}</li>
   {{/each}}
 </ul>
+
+<script>
+  $(document).ready(function(){
+    $.ajax({
+      url: "https://stormy-basin-23393.herokuapp.com/messages",
+      method: "get",
+      success: function(response){
+        console.log("Hello");
+      },
+      error: function(err){
+        console.log(err);
+      }
+    });
+  });
+
+</script>
