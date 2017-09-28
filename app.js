@@ -68,6 +68,7 @@ app.post('/handletext', function(req, res){
         res.end();
 
       }else{
+        console.log(message)
         User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
           if(!err){
             var message = client.messages.create({
@@ -111,7 +112,29 @@ app.post('/handletext', function(req, res){
   }
 });
 
+app.post('/grouptext', function(req, res){
+  Message.create({sender: {number: "", name: "Admin", imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}, content: req.body.Body, receivedAt: new Date()}, function(err){
+    if(!err){
+      User.find(function(err, users){
+        if(!err){
+          var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+          users.forEach(function(user){
+            if (user.name !== sentFrom){
+              var message = client.messages.create({
+                to: user.number,
+                from: "(207) 248-8331",
+                body:  "[" + sentFrom + "]: "  + req.body.Body,
+              })
 
+            }
+
+          });
+          res.end();
+        }
+      });
+    }
+  });
+});
 
 //start up our server
 var port = process.env.PORT || 3000
