@@ -31,7 +31,14 @@ app.get('/', function(req, res){
       res.render("viewmessages", {messages: messages})
     }
   })
+})
 
+app.get('/messages', function(req, res){
+  Message.find(function(err, messages){
+    if(!err){
+      res.send({messages: messages});
+    }
+  })
 })
 
 //add a route that will respond to post requests sent by Twilio via
@@ -52,7 +59,7 @@ app.post('/handletext', function(req, res){
     })
   }
   else{
-    Message.create({from: req.body.From, content: req.body.Body}, function(err){
+    Message.create({from: req.body.From, content: req.body.Body, receivedAt: new Date()}, function(err){
       if(!err){
         User.find(function(err, users){
           if(!err){

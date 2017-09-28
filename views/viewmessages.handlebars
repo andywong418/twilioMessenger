@@ -1,5 +1,5 @@
 <ul>
   {{#each messages}}
-    <li>{{this.content}}</li>
+    <li>[{{this.from}} sent at {{this.receivedAt}}]: {{this.content}}</li>
   {{/each}}
 </ul>
