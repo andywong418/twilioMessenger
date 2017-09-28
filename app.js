@@ -33,11 +33,11 @@ app.get('/', function(req, res){
 app.post('/handletext', function(req, res){
   console.log(req.body);
   var message = client.messages.create({
-    to: "SENDER_NUMBER",
-    from: "MY_TWILIO_NUMBER",
-    body: "THIS_PART_IS_UP_TO_YOU",
+    to: re.body.From,
+    from: "(207) 248-8331",
+    body: "Hello",
   })
-  res.send(message);
+  res.status(200).send(message);
 });
 
 //start up our server
