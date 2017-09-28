@@ -116,6 +116,7 @@ app.post('/grouptext', function(req, res){
   console.log("HERE!!!!!!")
   Message.create({sender: {number: "", name: "Admin", imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}, content: req.body.Body, receivedAt: new Date()}, function(err){
     if(!err){
+        console.log("HERE!")
       User.find(function(err, users){
         if(!err){
           users.forEach(function(user){
@@ -128,6 +129,9 @@ app.post('/grouptext', function(req, res){
           res.send("Success");
         }
       });
+      else{
+        console.log("FUCk!")
+      }
     }
   });
 });
