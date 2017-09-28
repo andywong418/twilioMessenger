@@ -23,7 +23,7 @@ app.set('view engine', 'hbs');
 //ROUTES GO HERE
 
 app.get('/', function(req, res){
-  res.render("viewmessages");
+  res.send("All good")
 })
 
 //add a route that will respond to post requests sent by Twilio via
