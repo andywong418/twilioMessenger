@@ -14,6 +14,7 @@ $(document).ready(function(){
         var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"> [Admin]: ${content} <span class="time_date">${this.receivedAt}</span></li>`);
         $('#messages_ul_container').append(messageLi);
         $("#group-message-input").val("");
+        $("#messages_ul_container").scrollTop($("#messages_ul_container")[0].scrollHeight);
       }
     })
   });
@@ -31,6 +32,7 @@ function update(){
           var curMessage = response.messages[i];
           var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content} <span class="time_date">${this.receivedAt}</span></li>`);
           $('#messages_ul_container').append(messageLi);
+          $("#messages_ul_container").scrollTop($("#messages_ul_container")[0].scrollHeight);
         }
       }
     },
