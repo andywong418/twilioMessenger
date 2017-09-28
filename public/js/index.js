@@ -2,13 +2,18 @@ $(document).ready(function(){
 
   setInterval(update, 3000);
 
+  $("#group-message-button").on("click", function(err){
+    alert();
+  });
+
 });
 
 function update(){
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/messages",
     method: "get",
-    success: function(response){
+    success: function(response, response.messages.length > $("#messages_container").children().length){
+      console.log(response)
       if(response.messages.length > $("#messages_container").children().length){
         for (var i = $("#messages_container").children().length; i < response.messages.length; i ++){
           var curMessage = response.messages[i];
