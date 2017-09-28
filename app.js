@@ -26,7 +26,12 @@ app.set('view engine', 'handlebars');
 //ROUTES GO HERE
 
 app.get('/', function(req, res){
-  res.render("viewmessages")
+  Message.find(function(err, messages){
+    if(!err){
+      res.render("viewmessages", {messages: messages})
+    }
+  })
+
 })
 
 //add a route that will respond to post requests sent by Twilio via
