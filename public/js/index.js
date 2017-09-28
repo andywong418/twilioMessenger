@@ -7,7 +7,7 @@ $(document).ready(function(){
       url: "https://stormy-basin-23393.herokuapp.com/grouptext",
       method: "post",
       data: {
-        Body: $("#group-message-input").val();
+        Body: $("#group-message-input").val()
       },
       success: function(response){
         var content = $("#group-message-input").val();
