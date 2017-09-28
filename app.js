@@ -42,7 +42,7 @@ app.post('/handletext', function(req, res){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
-          body: "Hello, thanks for signing up "  +"!",
+          body: "Hello, thanks for signing up " + user.name + "!",
         })
         res.sendStatus(200);
       }
