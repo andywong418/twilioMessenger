@@ -1,4 +1,4 @@
-<ul>
+<ul id="messages_container">
   {{#each messages}}
     <li>[{{this.from}} sent at {{this.receivedAt}}]: {{this.content}}</li>
   {{/each}}
@@ -10,7 +10,9 @@
       url: "https://stormy-basin-23393.herokuapp.com/messages",
       method: "get",
       success: function(response){
-        console.log("Hello");
+        console.log($("#messages_container").children().length);
+        console.log(response);
+        console.log(response.length);
       },
       error: function(err){
         console.log(err);
