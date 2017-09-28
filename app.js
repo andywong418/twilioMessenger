@@ -64,9 +64,9 @@ app.post('/handletext', function(req, res){
           to: req.body.From,
           from: "(207) 248-8331",
           body:  "Sorry, " + data.name + " you need all the proper inputs.",
-        })
+        });
         res.end();
-      }
+      
       }else{
         User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
           if(!err){
