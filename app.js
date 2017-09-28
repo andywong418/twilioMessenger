@@ -118,6 +118,7 @@ app.post('/grouptext', function(req, res){
   name: "Admin",
   imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}
   Message.create({sender: admin, content: req.body.Body, receivedAt: new Date()}, function(err){
+    console.log(err);
     if(!err){
         console.log("HERE!")
       User.find(function(err, users){
