@@ -106,3 +106,7 @@ html, body {
 .message_to_display {
   margin-bottom: 10px;
 }
+
+.time_date {
+  float: right;
+}

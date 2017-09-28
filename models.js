@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var messageSchema = new Schema ({
   content: String,
-  receivedAt: Date,
+  receivedAt: String,
   sender: {
     type: Schema.ObjectId,
     ref: "User"
