@@ -34,17 +34,15 @@ app.get('/', function(req, res){
 
 app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
-  console.log(message);
   if (message[0] === "New"){
     User.create({number: req.body.From, name: message[1]}, function(err, user){
       if(!err){
-        console.log(user)
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
           body: "Hello, thanks for signing up " + user.name + "!",
         })
-        res.sendStatus(200);
+        res.end();
       }
     })
   }
@@ -58,9 +56,9 @@ app.post('/handletext', function(req, res){
               var message = client.messages.create({
                 to: user.number,
                 from: "(207) 248-8331",
-                body: sentFrom + " [" + new Date() + "] " + req.body.Body,
+                body:  "[" + sentFrom + "]: "  + req.body.Body,
               })
-              res.sendStatus(200);
+              res.end();
             })
           }
         });
