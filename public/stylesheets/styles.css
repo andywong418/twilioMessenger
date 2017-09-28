@@ -53,7 +53,7 @@ html, body {
   background-color: white;
   border: 10px solid #3c75cb;
   border-radius: 5px;;
-  overflow: hidden;
+  overflow-y: scroll;
   height: 75%;
   width: 40%;
 }

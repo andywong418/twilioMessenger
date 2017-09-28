@@ -32,11 +32,13 @@ function update(){
     url: "https://stormy-basin-23393.herokuapp.com/messages",
     method: "get",
     success: function(response){
+      console.log("here")
       if(response.messages.length > $("#messages_container").children().length){
         for (var i = $("#messages_container").children().length; i < response.messages.length; i ++){
           var curMessage = response.messages[i];
           var messageLi = $(`<li>[${curMessage.sender.name} sent at ${curMessage.receivedAt}]: ${curMessage.content}</li>`);
           $('#messages_container').append(messageLi);
+          updateScroll();
         }
       }
     },
@@ -44,4 +46,8 @@ function update(){
       console.log(err);
     }
   });
+}
+function updateScroll(){
+    var element = document.getElementById("yourDivID");
+    element.scrollTop = element.scrollHeight;
 }
