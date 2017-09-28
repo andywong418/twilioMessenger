@@ -47,6 +47,7 @@ app.get('/messages', function(req, res){
 //webhooks
 
 app.post('/handletext', function(req, res){
+  console.log(req.body);
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
     User.findOne({number: req.body.From}, function(err, data){
@@ -98,12 +99,10 @@ app.post('/handletext', function(req, res){
         });
       }
     })
-
   }
-
-
-
 });
+
+
 
 //start up our server
 var port = process.env.PORT || 3000
