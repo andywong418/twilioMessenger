@@ -47,39 +47,54 @@ app.get('/messages', function(req, res){
 app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
-    User.create({number: req.body.From, name: message[1]}, function(err, user){
-      if(!err){
+    User.findOne({number: req.body.From}, function(err, data){
+      if(!err && data){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
-          body: "Hello, thanks for signing up " + user.name + "!",
+          body:  "Sorry, " + data.name + " already signed up",
         })
         res.end();
-      }
-    })
-  }
-  else{
-    Message.create({from: req.body.From, content: req.body.Body, receivedAt: new Date()}, function(err){
-      if(!err){
-        User.find(function(err, users){
+      }else{
+        User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
           if(!err){
-            var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
-            users.forEach(function(user){
-              if (user.name !== sentFrom){
-                var message = client.messages.create({
-                  to: user.number,
-                  from: "(207) 248-8331",
-                  body:  "[" + sentFrom + "]: "  + req.body.Body,
-                })
-
-              }
-
-            });
+            var message = client.messages.create({
+              to: req.body.From,
+              from: "(207) 248-8331",
+              body: "Hello, thanks for signing up " + user.name + "!",
+            })
             res.end();
           }
-        });
+        })
+      }
       }
     })
+
+  else{
+    User.findOne({number: req.body.From}, function(err, userMessage){
+      Message.create({sender: user, content: req.body.Body, receivedAt: new Date()}, function(err){
+        if(!err){
+          User.find(function(err, users){
+            if(!err){
+              var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+              users.forEach(function(user){
+                if (user.name !== sentFrom){
+                  var message = client.messages.create({
+                    to: user.number,
+                    from: "(207) 248-8331",
+                    body:  "[" + sentFrom + "]: "  + req.body.Body,
+                  })
+
+                }
+
+              });
+              res.end();
+            }
+          });
+        }
+      });
+    })
+
   }
 
 

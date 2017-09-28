@@ -3,13 +3,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var messageSchema = new Schema ({
-  from: String,
   content: String,
-  receivedAt: Date
+  receivedAt: Date,
+  sender: {
+    type: Schema.ObjectId,
+    ref: "User"
+  }
 })
 
 var userSchema = new Schema ({
   number: String,
+  imgURL: String,
   name: String
 })
 
