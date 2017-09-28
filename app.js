@@ -17,13 +17,22 @@ mongoose.connect(process.env.MONGODB_URI)
 var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs'}));
+app.set('view engine', 'hbs');
 
 //ROUTES GO HERE
 
+app.get('/', function(req, res){
+  res.render("viewmessages");
+})
+
 //add a route that will respond to post requests sent by Twilio via
 //webhooks
+
+app.post('/handletext', function(req, res){
+  console.log(req.body);
+  res.sendStatus(200);
+});
 
 //start up our server
 var port = process.env.PORT || 3000
