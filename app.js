@@ -26,6 +26,11 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //ROUTES GO HERE
+User.findOne({number: "123"}, function(err, data){
+  if(!data){
+    User.create({number: "123", name: "Admin", imgURL: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}, function(err, user){});
+  }
+})
 
 app.get('/', function(req, res){
   Message.find().populate("sender").exec(function(err, messages){
