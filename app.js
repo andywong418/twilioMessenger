@@ -26,7 +26,7 @@ app.set('view engine', 'handlebars');
 //ROUTES GO HERE
 
 app.get('/', function(req, res){
-  Message.find().populate("send").exec(function(err, messages){
+  Message.find().populate("sender").exec(function(err, messages){
     if(!err){
       res.render("viewmessages", {messages: messages})
     }
@@ -34,7 +34,7 @@ app.get('/', function(req, res){
 })
 
 app.get('/messages', function(req, res){
-  Message.find().populate("send").exec(function(err, messages){
+  Message.find().populate("sender").exec(function(err, messages){
     if(!err){
       res.send({messages: messages});
     }
