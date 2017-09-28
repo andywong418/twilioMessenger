@@ -67,8 +67,8 @@ app.post('/handletext', function(req, res){
           }
         })
       }
-      }
-    })
+    });
+  }
 
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
