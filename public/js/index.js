@@ -28,16 +28,14 @@ function update(){
 }
 
 function update(){
-  console.log("here")
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/messages",
     method: "get",
     success: function(response){
-      console.log(response)
       if(response.messages.length > $("#messages_ul_container").children().length){
         for (var i = $("#messages_ul_container").children().length; i < response.messages.length; i ++){
           var curMessage = response.messages[i];
-          var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${this.sender.imgURL}"> [${this.sender.name}]: ${this.content}</li>`);
+          var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
           $('#messages_ul_container').append(messageLi);
           updateScroll();
         }
