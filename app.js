@@ -35,28 +35,33 @@ app.get('/', function(req, res){
 app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
-    User.create({number: message[0], name: message[1]}, function(err){
+    User.create({number: req.body.From, name: message[1]}, function(err){
       if(!err){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
           body: "Hello, thanks for signing up " + message[1] +"!",
         })
-        res.status(200);
+        res.sendStatus(200);
       }
     })
   }
   else{
     Message.create({from: req.body.From, content: req.body.Body}, function(err){
       if(!err){
-        Message.find(function(err, messages){
-          User.find(function(err, users){
-            if(!err){
-              console.log(messages, users);
-              res.status(200);
-            }
-          })
-        })
+        User.find(function(err, users){
+          if(!err){
+            var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+            users.forEach(function(user){
+              var message = client.messages.create({
+                to: user.number,
+                from: "(207) 248-8331",
+                body: sentFrom + " [" + new Date() + "] " + req.body.Body,
+              })
+              res.sendStatus(200);
+            })
+          }
+        });
       }
     })
   }
