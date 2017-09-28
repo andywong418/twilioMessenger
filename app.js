@@ -114,7 +114,10 @@ app.post('/handletext', function(req, res){
 
 app.post('/grouptext', function(req, res){
   console.log("HERE!!!!!!")
-  Message.create({sender: {number: "", name: "Admin", imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}, content: req.body.Body, receivedAt: new Date()}, function(err){
+  var admin = {number: "1234567890",
+  name: "Admin",
+  imgUrl: "http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"}
+  Message.create({sender: admin, content: req.body.Body, receivedAt: new Date()}, function(err){
     if(!err){
         console.log("HERE!")
       User.find(function(err, users){
