@@ -6,6 +6,7 @@ var exphbs = require('express-handlebars');
 var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 var Message = require('./models').Message
 var User = require('./models').User
+var path = require('path');
 
 //setup mongoose connection
 mongoose.connection.on('error', function() {
@@ -22,6 +23,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+app.use(express.static(path.join(__dirname, 'public')));
 
 //ROUTES GO HERE
 
@@ -48,7 +50,7 @@ app.post('/handletext', function(req, res){
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
     User.findOne({number: req.body.From}, function(err, data){
-      if(!err && data){
+      if(!err && data && message.length !== 3){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
