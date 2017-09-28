@@ -91,7 +91,7 @@ app.post('/handletext', function(req, res){
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
       if (userMessage){
-        Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toTimeString()}, function(err){
+        Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
           if(!err){
             User.find(function(err, users){
               if(!err){
@@ -120,7 +120,7 @@ app.post('/handletext', function(req, res){
 app.post('/grouptext', function(req, res){
   User.findOne({number: "123"}, function(err, userMessage){
     if (userMessage){
-      Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toTimeString()}, function(err){
+      Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
         if(!err){
           User.find(function(err, users){
             if(!err){
