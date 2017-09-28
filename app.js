@@ -59,7 +59,7 @@ app.post('/handletext', function(req, res){
           body:  "Sorry, " + data.name + " already signed up",
         })
         res.end();
-      }  else if (message.length !== 2){
+      }  else if (message.length !== 3){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
@@ -68,7 +68,7 @@ app.post('/handletext', function(req, res){
         res.end();
 
       }else{
-        User.create({number: req.body.From, name: message[1]}, function(err, user){
+        User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
           if(!err){
             var message = client.messages.create({
               to: req.body.From,
