@@ -32,12 +32,12 @@ app.get('/', function(req, res){
 
 app.post('/handletext', function(req, res){
   console.log(req.body);
-  client.messages.create({
+  var message = client.messages.create({
     to: "SENDER_NUMBER",
     from: "MY_TWILIO_NUMBER",
     body: "THIS_PART_IS_UP_TO_YOU",
   })
-  res.sendStatus(200);
+  res.send(message);
 });
 
 //start up our server
