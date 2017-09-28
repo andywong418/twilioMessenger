@@ -38,6 +38,7 @@ app.post('/handletext', function(req, res){
   if (message[0] === "New"){
     User.create({number: req.body.From, name: message[1]}, function(err){
       if(!err){
+        console.log(mesage)
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
