@@ -11,7 +11,7 @@ $(document).ready(function(){
       },
       success: function(response){
         var content = $("#group-message-input").val();
-        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"> [Admin]: ${content}</li>`);
+        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"> [Admin]: ${content} <span class="time_date">${this.receivedAt}</span></li>`);
         $('#messages_ul_container').append(messageLi);
         $("#group-message-input").val("");
       }
@@ -29,7 +29,7 @@ function update(){
       if(response.messages.length > $("#messages_ul_container").children().length){
         for (var i = $("#messages_ul_container").children().length; i < response.messages.length; i ++){
           var curMessage = response.messages[i];
-          var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
+          var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content} <span class="time_date">${this.receivedAt}</span></li>`);
           $('#messages_ul_container').append(messageLi);
         }
       }
