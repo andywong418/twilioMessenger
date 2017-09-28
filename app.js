@@ -42,6 +42,7 @@ app.post('/handletext', function(req, res){
           from: "(207) 248-8331",
           body: "Hello, thanks for signing up " + message[1] +"!",
         })
+        res.status(200);
       }
     })
   }
@@ -52,6 +53,7 @@ app.post('/handletext', function(req, res){
           User.find(function(err, users){
             if(!err){
               console.log(messages, users);
+              res.status(200);
             }
           })
         })
@@ -60,7 +62,7 @@ app.post('/handletext', function(req, res){
   }
 
 
-  res.status(200);
+
 });
 
 //start up our server
