@@ -3,7 +3,9 @@ var express = require('express')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 var exphbs = require('express-handlebars');
-var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN)
+var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+var Message = require('./models').Message
+var User = require('./models').User
 
 //setup mongoose connection
 mongoose.connection.on('error', function() {
@@ -31,12 +33,33 @@ app.get('/', function(req, res){
 //webhooks
 
 app.post('/handletext', function(req, res){
-  console.log(req.body);
-  var message = client.messages.create({
-    to: req.body.From,
-    from: "(207) 248-8331",
-    body: "Hello",
-  })
+  var message = req.body.Body.split(" ")
+  if (message[0] === "New"){
+    User.create({number: message[0], name: message[1]}, function(err){
+      if(!err){
+        var message = client.messages.create({
+          to: req.body.From,
+          from: "(207) 248-8331",
+          body: "Hello, thanks for signing up " + message[1] +"!",
+        })
+      }
+    })
+  }
+  else{
+    Message.create({from: req.body.From, content: req.body.Body}, function(err){
+      if(!err){
+        Message.find(function(err, messages){
+          User.find(function(err, users){
+            if(!err){
+              console.log(messages, users);
+            }
+          })
+        })
+      }
+    })
+  }
+
+
   res.status(200);
 });
 
