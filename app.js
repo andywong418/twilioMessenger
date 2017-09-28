@@ -7,6 +7,8 @@ var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_T
 var Message = require('./models').Message
 var User = require('./models').User
 var path = require('path');
+var routes = require('./routes/regRoutes');
+var auth = require('./routes/auth');
 
 //setup mongoose connection
 mongoose.connection.on('error', function() {
@@ -25,123 +27,50 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
-//ROUTES GO HERE
+// Add Admin account if not yet added
 User.findOne({number: "123"}, function(err, data){
   if(!data){
     User.create({number: "123", name: "Admin", imgURL: "https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"}, function(err, user){});
   }
 })
 
-app.get('/', function(req, res){
-  Message.find().populate("sender").exec(function(err, messages){
-    if(!err){
-      res.render("viewmessages", {messages: messages})
-    }
-  })
-})
-
-app.get('/messages', function(req, res){
-  Message.find().populate("sender").exec(function(err, messages){
-    if(!err){
-      res.send({messages: messages});
-    }
-  })
-})
-
-//add a route that will respond to post requests sent by Twilio via
-//webhooks
-
-app.post('/handletext', function(req, res){
-  console.log(req.body);
-  var message = req.body.Body.split(" ")
-  if (message[0] === "New"){
-    User.findOne({number: req.body.From}, function(err, data){
-      var message = req.body.Body.split(" ")
-      if(!err && data){
-        var message = client.messages.create({
-          to: req.body.From,
-          from: "(207) 248-8331",
-          body:  "Sorry, " + data.name + " already signed up",
-        })
-        res.end();
-      }  else if (message.length !== 3){
-        var message = client.messages.create({
-          to: req.body.From,
-          from: "(207) 248-8331",
-          body:  "Sorry, you need all the proper inputs.",
-        });
-        res.end();
-
-      }else{
-        console.log(message)
-        User.create({number: req.body.From, name: message[1], imgURL: message[2]}, function(err, user){
-          if(!err){
-            var message = client.messages.create({
-              to: req.body.From,
-              from: "(207) 248-8331",
-              body: "Hello, thanks for signing up " + user.name + "!",
-            })
-            res.end();
-          }
-        })
-      }
-    });
-  }
-
-  else{
-    User.findOne({number: req.body.From}, function(err, userMessage){
-      if (userMessage){
-        Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
-          if(!err){
-            User.find(function(err, users){
-              if(!err){
-                var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
-                users.forEach(function(user){
-                  if (user.name !== sentFrom){
-                    var message = client.messages.create({
-                      to: user.number,
-                      from: "(207) 248-8331",
-                      body:  "[" + sentFrom + "]: "  + req.body.Body,
-                    })
-
-                  }
-
-                });
-                res.end();
-              }
-            });
-          }
-        });
-      }
-    });
-  }
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-app.post('/grouptext', function(req, res){
-  User.findOne({number: "123"}, function(err, userMessage){
-    if (userMessage){
-      Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
-        if(!err){
-          User.find(function(err, users){
-            if(!err){
-              users.forEach(function(user){
-                  var message = client.messages.create({
-                    to: user.number,
-                    from: "(207) 248-8331",
-                    body:  "[" + "Admin" + "]: "  + req.body.Body,
-                  })
+// error handlers
 
-              });
-              res.end();
-            }
-          });
-        }
-      });
-    }
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
   });
 });
 
-//start up our server
-var port = process.env.PORT || 3000
 
-app.listen(port)
+module.exports = app;
+
+
+
+// //start up our server
+// var port = process.env.PORT || 3000
+//
+// app.listen(port)
