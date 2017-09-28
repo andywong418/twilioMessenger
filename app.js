@@ -20,13 +20,13 @@ mongoose.connect(process.env.MONGODB_URI)
 var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs'}));
+app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 //ROUTES GO HERE
 
 app.get('/', function(req, res){
-  res.send("All good")
+  res.render("viewmessages")
 })
 
 //add a route that will respond to post requests sent by Twilio via
