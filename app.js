@@ -69,7 +69,7 @@ app.post('/handletext', function(req, res){
 
       }else{
         console.log(message)
-        User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
+        User.create({number: req.body.From, name: message[1], imgURL: message[2]}, function(err, user){
           if(!err){
             var message = client.messages.create({
               to: req.body.From,
