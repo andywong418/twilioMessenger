@@ -11,7 +11,7 @@ $(document).ready(function(){
       },
       success: function(response){
         var content = $("#group-message-input").val();
-        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="http://i2.cdn.cnn.com/cnnnext/dam/assets/170712202623-02-donald-trump-0712-exlarge-169.jpg"> [Admin]: ${content}</li>`);
+        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"> [Admin]: ${content}</li>`);
         $('#messages_ul_container').append(messageLi);
         $("#group-message-input").val("");
       }
