@@ -13,7 +13,6 @@ var messageSchema = new Schema ({
 
 var userSchema = new Schema ({
   number: String,
-  imgURL: String,
   name: String
 })
 
