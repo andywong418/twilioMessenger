@@ -37,7 +37,7 @@ function update(){
       if(response.messages.length > $("#messages_ul_container").children().length){
         for (var i = $("#messages_ul_container").children().length; i < response.messages.length; i ++){
           var curMessage = response.messages[i];
-          var messageLi = $(`<li>[${curMessage.sender.name} sent at ${curMessage.receivedAt}]: ${curMessage.content}</li>`);
+          var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${this.sender.imgURL}"> [${this.sender.name}]: ${this.content}</li>`);
           $('#messages_ul_container').append(messageLi);
           updateScroll();
         }
