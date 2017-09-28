@@ -52,15 +52,22 @@ app.post('/handletext', function(req, res){
   if (message[0] === "New"){
     User.findOne({number: req.body.From}, function(err, data){
       var message = req.body.Body.split(" ")
-      if(!err && data && message.length !== 3){
+      if(!err && data){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
           body:  "Sorry, " + data.name + " already signed up",
         })
         res.end();
+      }  else if (message.length !== 3){
+        var message = client.messages.create({
+          to: req.body.From,
+          from: "(207) 248-8331",
+          body:  "Sorry, " + data.name + " you need all the proper inputs.",
+        })
+        res.end();
+      }
       }else{
-        var message = req.body.Body.split(" ")
         User.create({number: req.body.From, name: message[1], imgUrl: message[2]}, function(err, user){
           if(!err){
             var message = client.messages.create({
