@@ -231,7 +231,7 @@ router.post('/receiveText', function(req, res){
             } else{
               var msg = req.body.Body.split(" ").slice(2).join();
               console.log("Send message", msg);
-              Message.create({sender: user._id, content: msg}, function(err, message){
+              Message.create({sender: user._id, content: msg, group: group._id}, function(err, message){
                 if(!err){
                   console.log("group regulars 2", group.regulars);
                   var sentFrom = group.regulars.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");

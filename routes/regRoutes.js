@@ -16,11 +16,16 @@ router.get('/', function(req, res){
 })
 
 router.get('/messages', function(req, res){
-  Message.find().populate("sender").exec(function(err, messages){
-    if(!err){
-      res.send({messages: messages});
+  Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
+    if(err){
+      res.send("No group found");
+    } else{
+      Message.find({group: group._id}, function(err, messages){
+        console.log("MESSAGES", messages);
+        res.send({messages: messages});
+      })
     }
-  });
+  })
 })
 
 router.get('/users', function(req, res){
