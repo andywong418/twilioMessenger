@@ -53,8 +53,7 @@ router.post('/grouptext', function(req, res){
                     to: user.number,
                     from: "(207) 248-8331",
                     body:  "[" + "Admin" + "]: "  + req.body.Body,
-                  })
-
+                  });
               });
               res.end();
             }

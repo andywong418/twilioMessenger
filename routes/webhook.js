@@ -40,7 +40,16 @@ router.post('/receiveText', function(req, res){
       }
     });
   }
-
+  else if (message[0] === "Logout"){
+    Message.delete({number: req.body.From}, function(err, user){
+      var message = client.messages.create({
+        to: req.body.From,
+        from: "(207) 248-8331",
+        body: user.name + ", good bye!",
+      })
+      res.end();
+    })
+  }
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
       if (userMessage){
