@@ -69,12 +69,25 @@ router.post('/grouptext', function(req, res){
 
 
 router.delete('/connection/:username', function(req, res){
-  console.log("here")
-  User.remove({name: req.params.username}, function(err, user){
-    if(!err) {
-      res.send("Success");
+  //Go to group that admin is in and remove use from group
+  var username = req.params.username;
+  Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
+    for(var i =0; i < group.regulars){
+      if(group.regulars[i].name=== username){
+        var numberToSend = group.regulars[i].number
+        group.regulars.splice(i, 1);
+        group.save(function(err, group){
+          var message = client.messages.create({
+            to: numberToSend,
+            from: "(207) 248-8331",
+            body:  "You've been kicked out of " + group.name,
+          });
+          res.end();
+        })
+      }
     }
-  });
+  })
+
 })
 
 module.exports = router;
