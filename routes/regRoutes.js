@@ -72,7 +72,7 @@ router.delete('/connection/:username', function(req, res){
   //Go to group that admin is in and remove use from group
   var username = req.params.username;
   Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
-    for(var i =0; i < group.regulars){
+    for(var i =0; i < group.regulars.length; i++){
       if(group.regulars[i].name=== username){
         var numberToSend = group.regulars[i].number
         group.regulars.splice(i, 1);
