@@ -6,9 +6,8 @@ var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_T
 var Group = require('../models').Group;
 router.get('/', function(req, res){
   Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
-    Message.find({group: group._id}, function(err, messages){
+    Message.find({group: group._id}).populate('sender').exec(function(err, messages){
       group.regulars.unshift(req.user.user);
-      console.log("GROUP REGULARS", group.regulars);
       res.render('viewmessages', {messages: messages, user_list: group.regulars});
     })
   })
