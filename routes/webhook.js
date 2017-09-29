@@ -212,8 +212,16 @@ router.post('/receiveText', function(req, res){
               model: 'User'
             }
           }).exec(function(err, group){
-            console.log("group regulars", group.regulars, user._id);
-            if(group.regulars.indexOf(user._id.toString()) === -1){
+            group.regulars.push(group.admin.user);
+            console.log("group regulars1 ", group.regulars, user._id);
+            var inRegular = false;
+            group.regulars.forEach(function(regular){
+              if(regular._id === user._id.toString()){
+                inRegular = true;
+              }
+            });
+
+            if(!inRegular){
               var message = client.messages.create({
                 to: req.body.From,
                 from: "(207) 248-8331",
@@ -225,8 +233,7 @@ router.post('/receiveText', function(req, res){
               console.log("Send message", msg);
               Message.create({sender: user._id, content: msg}, function(err, message){
                 if(!err){
-                  group.regulars.push(group.admin.user);
-                  console.log("group regulars", group.regulars);
+                  console.log("group regulars 2", group.regulars);
                   var sentFrom = group.regulars.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
                   console.log("sent from", sentFrom);
                   group.regulars.forEach(function(user){
