@@ -21,7 +21,7 @@ mongoose.connection.on('error', function() {
 mongoose.connection.on('connected', function() {
   console.log('succesfully connected to database')
 })
-mongoose.connect(process.env.MONGODB_URI)
+
 
 //setup application configurations
 var app = express()
@@ -35,7 +35,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup the Passport Stuff
 var session = require('express-session');
-app.use(session({ secret: 'keyboard cat' }));
+var MongoStore = require('connect-mongo')(session);
+
+
+
+app.use(session({
+  secret: 'keyboard cat',
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
 
 // Tell Passport how to set req.user
 passport.serializeUser(function(user, done) {
