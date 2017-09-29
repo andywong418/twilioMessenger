@@ -1,4 +1,6 @@
-
+<form id="logout-button" method="get" action="/logout">
+<input type="submit" name="Logout" value="Logout">
+</form>
 
 <div id="message_text_container">
   <ul id="messages_ul_container">
@@ -12,5 +14,16 @@
       <input type="text" name="message" id="group-message-input" placeholder="Group Message">
       <a><span class="glyphicon glyphicon-upload" id="group-message-button"></span></a>
     </form>
+  </div>
+</div>
+
+<div id="users_container_container">
+  <h1 id="connected-users-title">Connected People</h1>
+  <div id="users_container">
+    <ul id="users_ul_container">
+    {{#each user_list}}
+    <li class="user_to_display"><img class="profile_img" src="{{this.imgURL}}"> {{this.name}}<span class="delete-user glyphicon glyphicon-remove"></span></li>
+    {{/each}}
+    <ul>
   </div>
 </div>

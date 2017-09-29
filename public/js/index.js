@@ -20,6 +20,10 @@ $(document).ready(function(){
       }
     });
   });
+
+  $("body").on('click', '.delete-user', function(event){
+    alert();
+  })
 });
 
 function update(){
@@ -34,6 +38,25 @@ function update(){
             var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
             $('#messages_ul_container').append(messageLi);
             $("#messages_ul_container").scrollBottom($("#messages_ul_container")[$("#messages_ul_container").children.length()].scrollHeight);
+          }
+        }
+      }
+    },
+    error: function(err){
+      console.log(err);
+    }
+  });
+
+  $.ajax({
+    url: "https://stormy-basin-23393.herokuapp.com/users",
+    method: "get",
+    success: function(response){
+      if(response.users !== undefined){
+        if(response.users.length > $("#users_ul_container").children().length){
+          for (var i = $("#users_ul_container").children().length; i < response.messages.length; i ++){
+            var curUser = response.users[i];
+            var messageLi = $(`<li class="user_to_display"><img class="profile_img" src="${curUser.imgURL}"> ${curUser.name}<span class="delete-user glyphicon glyphicon-remove"></span></li>`);
+            $('#users_ul_container').append(messageLi);
           }
         }
       }

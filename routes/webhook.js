@@ -56,9 +56,7 @@ router.post('/receiveText', function(req, res){
                       from: "(207) 248-8331",
                       body:  "[" + sentFrom + "]: "  + req.body.Body,
                     })
-
                   }
-
                 });
                 res.end();
               }

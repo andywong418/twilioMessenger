@@ -5,11 +5,16 @@ var User = require('../models').User
 var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 router.get('/', function(req, res){
-  Message.find().populate("sender").exec(function(err, messages){
+  User.find({name: {'$ne':"Admin" }}).exec(function(err, users){
     if(!err){
-      res.render("viewmessages", {messages: messages})
+      Message.find().populate("sender").exec(function(err, messages){
+        if(!err){
+          res.render("viewmessages", {messages: messages, user_list: users})
+        }
+      });
     }
-  })
+  });
+
 })
 
 router.get('/messages', function(req, res){
@@ -17,7 +22,15 @@ router.get('/messages', function(req, res){
     if(!err){
       res.send({messages: messages});
     }
-  })
+  });
+})
+
+router.get('/users', function(req, res){
+  User.find({name: {'$ne':"Admin" }}).exec(function(err, users){
+    if(!err){
+      res.send({messages: users});
+    }
+  });
 })
 
 //add a route that will respond to post requests sent by Twilio via

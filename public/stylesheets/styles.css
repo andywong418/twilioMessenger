@@ -84,6 +84,7 @@ html, body {
 
 #group-message-form {
   float: right;
+  margin-right: 10px;
   width: 40%;
   border: 1px solid #f2f2f2;
   border-radius: 10px;
@@ -126,4 +127,46 @@ html, body {
 
 .login-register-input {
   margin: 10px 0;
+}
+
+#logout-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  float: left;
+  margin: 10px;
+}
+
+#users_container_container {
+  position: absolute;
+  right: 0;
+  width: 25%;
+  height: 75%;
+  background-color: green;
+  overflow: hidden;
+}
+
+#connected-users-title {
+  color: white;
+  text-align: center;
+}
+
+#users_ul_container {
+  margin: auto;
+  background-color: yellow;
+  overflow-y: scroll;
+  height: 60%;
+  width: 80%;
+}
+
+.delete-user {
+  font-size: 40px;
+  color: red;
+  float: right;
+  margin-top: 5px;
+}
+
+.user_to_display {
+  margin: 5px 0;
+
 }
