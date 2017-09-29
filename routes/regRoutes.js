@@ -28,7 +28,7 @@ router.get('/messages', function(req, res){
 router.get('/users', function(req, res){
   User.find({name: {'$ne':"Admin" }}).exec(function(err, users){
     if(!err){
-      res.send({messages: users});
+      res.send({users: users});
     }
   });
 })
