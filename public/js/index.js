@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-  setInterval(update, 3000);
+  setInterval(updateMessages, 3000);
+  setInterval(updateUsers, 3000);
 
   $("#group-message-button").on("click", function(event){
     event.preventDefault();
@@ -34,7 +35,7 @@ $(document).ready(function(){
   })
 });
 
-function update(){
+function updateMessages(){
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/messages",
     method: "get",
@@ -54,7 +55,8 @@ function update(){
       console.log(err);
     }
   });
-
+}
+updateUsers(){
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/users",
     method: "get",
@@ -75,4 +77,5 @@ function update(){
       console.log(err);
     }
   });
+
 }
