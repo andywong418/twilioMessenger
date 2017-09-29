@@ -67,7 +67,7 @@ function updateUsers(){
       if(response.users !== undefined){
 
         if(response.users.length > ($("#users_ul_container").children().length-1)){
-          for (var i = ($("#users_ul_container").children().length-1); i < response.messages.length; i ++){
+          for (var i = ($("#users_ul_container").children().length-1); i < response.users.length; i ++){
             var curUser = response.users[i];
             var messageLi = $(`<li class="user_to_display"><img class="profile_img" src="${curUser.imgURL}"> ${curUser.name}<span class="delete-user glyphicon glyphicon-remove"></span></li>`);
             $('#users_ul_container').append(messageLi);
