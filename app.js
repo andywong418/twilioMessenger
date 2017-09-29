@@ -9,7 +9,8 @@ var routes = require('./routes/regRoutes.js');
 var auth = require('./routes/auth');
 var webhook = require('./routes/webhook');
 var User = require('./models').User
-var Admin = require('./models').Admin
+var Admin = require('./models').Admin;
+var Group = require('./models').Group;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
