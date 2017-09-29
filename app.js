@@ -7,6 +7,7 @@ var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_T
 var path = require('path');
 var routes = require('./routes/regRoutes.js');
 var auth = require('./routes/auth');
+var webhook = require('./routes/webhook');
 var User = require('./models').User
 var Admin = require('./models').Admin
 var passport = require('passport');
@@ -77,6 +78,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/', webhook);
 app.use('/', auth(passport));
 app.use('/', function(req, res, next){
   if (!req.user) {
