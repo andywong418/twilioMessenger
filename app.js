@@ -46,7 +46,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+  Admin.findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -78,7 +78,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', auth(passport));
-app.use('/', function(req, res){
+app.use('/', function(req, res, next){
   if (!req.user) {
     res.redirect('/login');
   } else {

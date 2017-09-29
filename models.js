@@ -24,7 +24,7 @@ var adminSchema = new Schema ({
 
 var Message = mongoose.model('Message', messageSchema);
 var User = mongoose.model('User', userSchema);
-var Admin = mongoose.model('Admin', userSchema);
+var Admin = mongoose.model('Admin', adminSchema);
 
 module.exports = {
   Message,

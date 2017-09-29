@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Admin = require('../models').Admin
 
 module.exports = function(passport) {
   router.get("/login", function(req, res){
@@ -17,6 +18,7 @@ module.exports = function(passport) {
   });
 
   router.post("/signup", function(req, res){
+    console.log(req.body);
     Admin.create({username: req.body.username, password: req.body.password}, function(err){
       res.redirect("/login");
     })
