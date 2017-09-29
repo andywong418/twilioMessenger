@@ -36,7 +36,8 @@ router.post('/receiveText', function(req, res){
               body:  "Group does not exist",
             });
             res.end();
-          } else{
+          }
+          else{
             var message = req.body.Body.split(" ");
             User.create({number: req.body.From, name: message[1], imgURL: message[3]}, function(err, user){
                   group.regulars.push(user.id);
@@ -66,6 +67,59 @@ router.post('/receiveText', function(req, res){
       })
       res.end();
     })
+  }
+  else if (message[0] === "Group"){
+    if(message.length !== 2){
+      var message = client.messages.create({
+        to: req.body.From,
+        from: "(207) 248-8331",
+        body: "Please include all inputs.",
+      })
+      res.end();
+    }else{
+      User.findOne({number: req.body.From}, function(err, user){
+        if(!user){
+          var message = client.messages.create({
+            to: req.body.From,
+            from: "(207) 248-8331",
+            body: "Please register!",
+          })
+          res.end();
+        } else{
+          Group.findOne({name: message[1]}, function(err, group){
+            if(!group){
+              var message = client.messages.create({
+                to: req.body.From,
+                from: "(207) 248-8331",
+                body: "Group does not exist.",
+              })
+              res.end();
+            } else{
+              if(group.regulars.indexOf(user._id.toString()) > -1){
+                var message = client.messages.create({
+                  to: req.body.From,
+                  from: "(207) 248-8331",
+                  body: "You're already in group",
+                })
+                res.end();
+              } else{
+                group.regulars.push(user._id);
+                group.save(function(err, user){
+                  var message = client.messages.create({
+                    to: req.body.From,
+                    from: "(207) 248-8331",
+                    body: "You have joined a new group!",
+                  })
+                  res.end();
+                })
+              }
+            }
+
+          })
+        }
+      })
+
+    }
   }
   else{
     User.findOne({number: req.body.From}, function(err, userMessage){
