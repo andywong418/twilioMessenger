@@ -17,7 +17,7 @@ router.post('/receiveText', function(req, res){
           body:  "Sorry, " + data.name + " already signed up",
         })
         res.end();
-      }  else if (message.length !== 3){
+      }  else if (message.length !== 4){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
@@ -27,15 +27,31 @@ router.post('/receiveText', function(req, res){
 
       }else{
         console.log(message)
-        User.create({number: req.body.From, name: message[1], imgURL: message[2]}, function(err, user){
-          if(!err){
-            var message = client.messages.create({
-              to: req.body.From,
-              from: "(207) 248-8331",
-              body: "Hello, thanks for signing up " + user.name + "!",
-            })
-            res.end();
-          }
+        User.create({number: req.body.From, name: message[1], imgURL: message[3]}, function(err, user){
+          Group.findOne({name: message[2]}, function(err, group){
+            if(!group){
+              var message = client.messages.create({
+                to: req.body.From,
+                from: "(207) 248-8331",
+                body:  "Group does not exist",
+              });
+              res.end();
+            } else{
+              console.log("group",group);
+              group.regulars.push(user.id);
+              group.save(function(err, group){
+                if(!err){
+                  var message = client.messages.create({
+                    to: req.body.From,
+                    from: "(207) 248-8331",
+                    body: "Hello, thanks for signing up " + user.name + "!",
+                  })
+                  res.end();
+                }
+              })
+            }
+          })
+
         })
       }
     });
