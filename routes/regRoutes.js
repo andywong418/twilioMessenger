@@ -49,7 +49,7 @@ router.post('/grouptext', function(req, res){
 
   Group.findOne({admin: req.user.id}).populate("regulars").exec(function(err, group){
     if(group){
-      Message.create({sender: req.user.id, content: req.body.Body, group: group._id}, function(err, message){
+      Message.create({sender: req.user.user.id, content: req.body.Body, group: group._id}, function(err, message){
         group.regulars.forEach(function(user){
             var message = client.messages.create({
               to: user.number,
