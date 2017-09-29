@@ -52,6 +52,8 @@ function update(){
     method: "get",
     success: function(response){
       if(response.users !== undefined){
+        console.log(response.users);
+        console.log($("#users_ul_container").children().length);
         if(response.users.length > $("#users_ul_container").children().length){
           for (var i = $("#users_ul_container").children().length; i < response.messages.length; i ++){
             var curUser = response.users[i];
