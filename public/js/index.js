@@ -77,6 +77,7 @@ function updateUsers(){
           var childrenObjs = Array.prototype.slice.call($("#users_ul_container").children());
           console.log($("#users_ul_container").children())
           childrenObjs.forEach(function(obj){
+            console.log(obj);
             if(response.users.indexOf(obj.attr("id")) === -1){
                 obj.remove();
             }
