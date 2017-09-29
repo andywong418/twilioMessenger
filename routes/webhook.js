@@ -212,7 +212,7 @@ router.post('/receiveText', function(req, res){
               model: 'User'
             }
           }).exec(function(err, group){
-            if(group.indexOf(user._id.toString()) === -1){
+            if(group.regulars.indexOf(user._id.toString()) === -1){
               var message = client.messages.create({
                 to: req.body.From,
                 from: "(207) 248-8331",
