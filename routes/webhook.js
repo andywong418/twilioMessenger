@@ -37,6 +37,7 @@ router.post('/receiveText', function(req, res){
             });
             res.end();
           } else{
+            var message = req.body.Body.split(" ");
             User.create({number: req.body.From, name: message[1], imgURL: message[3]}, function(err, user){
                   group.regulars.push(user.id);
                   group.save(function(err, group){
