@@ -12,6 +12,7 @@ $(document).ready(function(){
         Body: $("#group-message-input").val()
       },
       success: function(response){
+        console.log("RESPONSE", response);
         var content = $("#group-message-input").val();
         var time = (new Date()).toLocaleTimeString();
         var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${response.admin.user.imgURL}"> [${response.admin.username}]: ${content}</li>`);
