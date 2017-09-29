@@ -56,7 +56,7 @@ function updateMessages(){
     }
   });
 }
-updateUsers(){
+function updateUsers(){
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/users",
     method: "get",
