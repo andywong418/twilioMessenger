@@ -7,7 +7,8 @@ var Group = require('../models').Group;
 router.get('/', function(req, res){
   Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
     Message.find({group: group._id}, function(err, messages){
-      res.render('viewmessages', {messages: messages, user_list: group.regulars});
+      var wholeUserArray = group.regulars.unshift(req.user.user);
+      res.render('viewmessages', {messages: messages, user_list: wholeUserArray});
     })
   })
 
@@ -22,12 +23,13 @@ router.get('/messages', function(req, res){
 })
 
 router.get('/users', function(req, res){
-  User.find({name: {'$ne':"Admin" }}).exec(function(err, users){
-    if(!err){
-      res.send({users: users});
-    }
-    else{
-      console.log(err);
+  Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
+    if(err){
+      res.send("No group found");
+    } else{
+      var wholeUserArray = group.regulars.unshift(req.user.user);
+      console.log("wholeUserArray", wholeUserArray);
+      res.send({users: wholeUserArray});
     }
   });
 })
