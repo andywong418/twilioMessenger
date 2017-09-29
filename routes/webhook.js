@@ -69,6 +69,7 @@ router.post('/receiveText', function(req, res){
     })
   }
   else if (message[0] === "Group"){
+    console.log("MESSAGE", message);
     if(message.length !== 2){
       var message = client.messages.create({
         to: req.body.From,
