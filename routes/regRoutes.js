@@ -45,26 +45,43 @@ router.get('/users', function(req, res){
 
 
 router.post('/grouptext', function(req, res){
-  User.findOne({number: "123"}, function(err, userMessage){
-    if (userMessage){
-      Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
-        if(!err){
-          User.find(function(err, users){
-            if(!err){
-              users.forEach(function(user){
-                  var message = client.messages.create({
-                    to: user.number,
-                    from: "(207) 248-8331",
-                    body:  "[" + "Admin" + "]: "  + req.body.Body,
-                  });
-              });
-              res.end();
-            }
-          });
-        }
+
+
+  Group.findOne({admin: req.user.id}).populate("regulars").exec(function(err, group){
+    if(group){
+      Message.create({sender: req.user.id, content: req.body.Body, group: group._id}, function(err, message){
+        group.regulars.forEach(function(user){
+            var message = client.messages.create({
+              to: user.number,
+              from: "(207) 248-8331",
+              body:  "[" + req.user.username + ":" + group.name + "]: " + req.body.Body,
+            })
+        });
+        res.end();
       });
     }
   });
+
+  // User.findOne({number: "123"}, function(err, userMessage){
+  //   if (userMessage){
+  //     Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
+  //       if(!err){
+  //         User.find(function(err, users){
+  //           if(!err){
+  //             users.forEach(function(user){
+  //                 var message = client.messages.create({
+  //                   to: user.number,
+  //                   from: "(207) 248-8331",
+  //                   body:  "[" + "Admin" + "]: "  + req.body.Body,
+  //                 });
+  //             });
+  //             res.end();
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 
