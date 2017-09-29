@@ -14,7 +14,7 @@ $(document).ready(function(){
       success: function(response){
         var content = $("#group-message-input").val();
         var time = (new Date()).toLocaleTimeString();
-        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"> [Admin]: ${content}</li>`);
+        var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="{{response.admin.user.imgURL}}"> [{{response.admin.username}}]: ${content}</li>`);
         $('#messages_ul_container').append(messageLi);
         $("#group-message-input").val("");
         $("#messages_ul_container").scrollBottom($("#messages_ul_container")[$("#messages_ul_container").children.length()].scrollHeight);

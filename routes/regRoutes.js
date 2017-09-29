@@ -57,7 +57,7 @@ router.post('/grouptext', function(req, res){
               body:  "[" + req.user.username + ":" + group.name + "]: " + req.body.Body,
             })
         });
-        res.end();
+        res.json({admin: req.user});
       });
     }
   });
