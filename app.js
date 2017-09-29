@@ -31,11 +31,6 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Add Admin account if not yet added
-User.findOne({number: "123"}, function(err, data){
-  if(!data){
-    User.create({number: "123", name: "Admin", imgURL: "https://media1.giphy.com/media/UqxVRm1IaaIGk/giphy.gif"}, function(err, user){});
-  }
-})
 
 // Setup the Passport Stuff
 var session = require('express-session');
@@ -47,7 +42,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  Admin.findById(id, function(err, user) {
+  Admin.findById(id).populate('user').exec(function(err, user) {
     done(err, user);
   });
 });
