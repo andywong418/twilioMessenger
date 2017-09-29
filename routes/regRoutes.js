@@ -70,7 +70,9 @@ router.delete('/connection/:username', function(req, res){
   console.log("here")
   User.remove({name: req.params.username}, function(err){
     if(!err) {
-      res.send("Success");
+      Message.remove({sender.name: req.params.username}, function(err){
+        if(!err) res.send("Success");
+      });
     }
   });
 })
