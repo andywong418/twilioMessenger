@@ -41,6 +41,7 @@ router.post('/receiveText', function(req, res){
     });
   }
   else if (req.body.Body === "Logout"){
+    console.log("HEHEHEHHHEHEHEHEH")
     User.delete({number: req.body.From}, function(err, user){
       var message = client.messages.create({
         to: req.body.From,
