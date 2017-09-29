@@ -212,6 +212,7 @@ router.post('/receiveText', function(req, res){
               model: 'User'
             }
           }).exec(function(err, group){
+            console.log("group regulars", group.regulars, user._id);
             if(group.regulars.indexOf(user._id.toString()) === -1){
               var message = client.messages.create({
                 to: req.body.From,
