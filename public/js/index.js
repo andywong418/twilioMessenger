@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-  setInterval(updateMessages, 3000);
-  setInterval(updateUsers, 3000);
+  // setInterval(updateMessages, 3000);
+  // setInterval(updateUsers, 3000);
 
   $("#group-message-button").on("click", function(event){
     event.preventDefault();
