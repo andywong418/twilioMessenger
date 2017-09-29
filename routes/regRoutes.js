@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Message = require('../models').Message
 var User = require('../models').User
+var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 router.get('/', function(req, res){
   Message.find().populate("sender").exec(function(err, messages){
