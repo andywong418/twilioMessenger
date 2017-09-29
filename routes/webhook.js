@@ -64,6 +64,13 @@ router.post('/receiveText', function(req, res){
           }
         });
       }
+      else{
+        var message = client.messages.create({
+          to: req.body.From,
+          from: "(207) 248-8331",
+          body: "You need to register. Do so by texting: New YOUR_NAME IMAGE_URL"
+        })
+      }
     });
   }
 });
