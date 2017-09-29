@@ -5,7 +5,7 @@
 <div id="message_text_container">
   <ul id="messages_ul_container">
     {{#each messages}}
-      <li class="message_to_display"><img class="profile_img" src="{{this.sender.imgURL}}"> [{{this.sender.name}}]: {{this.content}}</li>
+      <li id="{{this._id}}" class="message_to_display"><img class="profile_img" src="{{this.sender.imgURL}}"> [{{this.sender.name}}]: {{this.content}}</li>
     {{/each}}
   </ul>
 
@@ -22,7 +22,7 @@
   <div id="users_container">
     <ul id="users_ul_container">
     {{#each user_list}}
-    <li class="user_to_display"><img class="profile_img" src="{{this.imgURL}}"> {{this.name}}<span class="delete-user glyphicon glyphicon-remove"></span></li>
+    <li id="{{this._id}}"class="user_to_display"><img class="profile_img" src="{{this.imgURL}}"> {{this.name}}<span class="delete-user glyphicon glyphicon-remove"></span></li>
     {{/each}}
     <ul>
   </div>

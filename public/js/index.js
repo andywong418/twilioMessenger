@@ -44,7 +44,7 @@ function updateMessages(){
         if(response.messages.length > $("#messages_ul_container").children().length){
           for (var i = $("#messages_ul_container").children().length; i < response.messages.length; i ++){
             var curMessage = response.messages[i];
-            var messageLi = $(`<li class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
+            var messageLi = $(`<li id="curMessage._id" class="message_to_display"><img class="profile_img" src="${curMessage.sender.imgURL}"> [${curMessage.sender.name}]: ${curMessage.content}</li>`);
             $('#messages_ul_container').append(messageLi);
             $("#messages_ul_container").scrollBottom($("#messages_ul_container")[$("#messages_ul_container").children.length()].scrollHeight);
           }
@@ -69,18 +69,12 @@ function updateUsers(){
         if(response.users.length >($("#users_ul_container").children().length-1)){
           for (var i = ($("#users_ul_container").children().length-1); i < response.users.length; i ++){
             var curUser = response.users[i];
-            var messageLi = $(`<li class="user_to_display"><img class="profile_img" src="${curUser.imgURL}"> ${curUser.name}<span class="delete-user glyphicon glyphicon-remove"></span></li>`);
+            var messageLi = $(`<li id="${curUser._id}"class="user_to_display"><img class="profile_img" src="${curUser.imgURL}"> ${curUser.name}<span class="delete-user glyphicon glyphicon-remove"></span></li>`);
             $('#users_ul_container').append(messageLi);
           }
         }
         else if(response.users.length < ($("#users_ul_container").children().length-1)){
-          $.ajax({
-            url: "https://stormy-basin-23393.herokuapp.com/",
-            method: "get",
-            success: function(response){
-              console.log("Nice")
-            }
-          })
+
         }
       }
     },
