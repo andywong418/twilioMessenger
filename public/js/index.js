@@ -49,7 +49,7 @@ function update(){
 
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/users",
-    method: "get",
+    method: "pget",
     success: function(response){
       console.log(response);
       if(response.users !== undefined){

@@ -27,6 +27,7 @@ router.get('/messages', function(req, res){
 
 router.get('/users', function(req, res){
   User.find({name: {'$ne':"Admin" }}).exec(function(err, users){
+    console.log(users)
     if(!err){
       res.send({users: users});
     }
