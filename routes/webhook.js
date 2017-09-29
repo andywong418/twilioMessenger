@@ -79,6 +79,7 @@ router.post('/receiveText', function(req, res){
       res.end();
     }else{
       User.findOne({number: req.body.From}, function(err, user){
+        var message = req.body.Body.split(" ");
         if(!user){
           var message = client.messages.create({
             to: req.body.From,
