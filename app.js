@@ -41,7 +41,10 @@ var MongoStore = require('connect-mongo')(session);
 
 app.use(session({
   secret: 'keyboard cat',
-  store: new MongoStore({mongooseConnection: mongoose.connection})
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
 }));
 
 // Tell Passport how to set req.user
