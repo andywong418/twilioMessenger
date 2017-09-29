@@ -1,8 +1,10 @@
+
+
 <form id="logout-button" method="get" action="/logout">
 <input type="submit" name="Logout" value="Logout">
 </form>
 
-<div id="message_text_container">
+<div id="{{group_name}}" class="message_text_container" >
   <ul id="messages_ul_container">
     {{#each messages}}
       <li id="{{this._id}}" class="message_to_display"><img class="profile_img" src="{{this.sender.imgURL}}"> [{{this.sender.name}}]: {{this.content}}</li>
@@ -17,13 +19,18 @@
   </div>
 </div>
 
-<div id="users_container_container">
+<div id="users_container_container" style="background: #ff595b; border-radius: 3px;">
   <h1 id="connected-users-title">Connected People</h1>
   <div id="users_container">
     <ul id="users_ul_container">
     {{#each user_list}}
-    <li id="{{this._id}}"class="user_to_display"><img class="profile_img" src="{{this.imgURL}}"> {{this.name}}<span class="delete-user glyphicon glyphicon-remove"></span></li>
+    <li id="{{this._id}}"class="user_to_display" style="color: white"><img class="profile_img" src="{{this.imgURL}}"> {{this.name}}<span class="delete-user glyphicon glyphicon-remove"></span></li>
     {{/each}}
     <ul>
   </div>
 </div>
+
+<script>
+  console.log("{{group_img}}");
+  $('#content_container').css("background-image", 'url("{{group_img}}")')
+</script>

@@ -2,7 +2,8 @@ $(document).ready(function(){
 
   setInterval(updateMessages, 3000);
   setInterval(updateUsers, 3000);
-
+  var group_name = $('.message_text_container').attr('id');
+  $('#header_title').text(group_name);
   $("#group-message-button").on("click", function(event){
     event.preventDefault();
     $.ajax({

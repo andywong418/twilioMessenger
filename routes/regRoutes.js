@@ -8,7 +8,7 @@ router.get('/', function(req, res){
   Group.findOne({admin: req.user.id}).populate('regulars').exec(function(err, group){
     Message.find({group: group._id}).populate('sender').exec(function(err, messages){
       group.regulars.unshift(req.user.user);
-      res.render('viewmessages', {messages: messages, user_list: group.regulars});
+      res.render('viewmessages', {messages: messages, user_list: group.regulars, group_name: group.name, group_img: group.groupImgURL});
     })
   })
 

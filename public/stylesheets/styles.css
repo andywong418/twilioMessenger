@@ -49,7 +49,7 @@ html, body {
   width: 100%;
 }
 
-#message_text_container {
+.message_text_container {
   background-color: white;
   border: 10px solid #3c75cb;
   border-radius: 5px;;
@@ -58,7 +58,7 @@ html, body {
   width: 40%;
 }
 
-#message_text_container::-webkit-scrollbar {
+.message_text_container::-webkit-scrollbar {
     display: none;
 }
 
