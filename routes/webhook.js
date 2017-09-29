@@ -229,7 +229,7 @@ router.post('/receiveText', function(req, res){
               });
               res.end();
             } else{
-              var msg = req.body.Body.split(" ").slice(2).join();
+              var msg = req.body.Body.split(" ").slice(2).join(' ');
               console.log("Send message", msg);
               Message.create({sender: user._id, content: msg, group: group._id}, function(err, message){
                 if(!err){
@@ -241,7 +241,7 @@ router.post('/receiveText', function(req, res){
                       var message = client.messages.create({
                         to: user.number,
                         from: "(207) 248-8331",
-                        body:  "[" + sentFrom + "]: " + msg,
+                        body:  "[" + sentFrom + ":" + group.name + "]: " + msg,
                       })
                     }
                   });

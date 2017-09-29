@@ -28,7 +28,7 @@ module.exports = function(passport) {
           if(user){
             res.send("User already exists");
           } else{
-            User.create({number: req.body.phone, imgURL: req.body.imgURL, name: req.body.username}, function(err, user){
+            User.create({number: '+1' + req.body.phone, imgURL: req.body.imgURL, name: req.body.username}, function(err, user){
               Admin.create({username: req.body.username, password: req.body.password, user: user._id}, function(err, admin){
                 Group.create({name: req.body.group, admin: admin._id, groupImgURL: req.body.groupImgURL}, function(err, group){
                   res.redirect('/login');
