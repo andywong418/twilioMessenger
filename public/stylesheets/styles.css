@@ -142,7 +142,6 @@ html, body {
   right: 0;
   width: 25%;
   height: 75%;
-  background-color: green;
   overflow: hidden;
 }
 
@@ -153,7 +152,6 @@ html, body {
 
 #users_ul_container {
   margin: auto;
-  background-color: yellow;
   overflow-y: scroll;
   height: 60%;
   width: 80%;
