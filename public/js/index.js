@@ -74,14 +74,14 @@ function updateUsers(){
           }
         }
         else if(response.users.length < ($("#users_ul_container").children().length-1)){
-          var childrenObjs = Array.prototype.slice.call($("#users_ul_container").children());
-          console.log($("#users_ul_container").children())
-          childrenObjs.forEach(function(obj){
-            console.log(obj);
-            if(response.users.indexOf(obj.attr("id")) === -1){
-                obj.remove();
-            }
-          });
+          // var childrenObjs = Array.prototype.slice.call($("#users_ul_container").children());
+          // console.log($("#users_ul_container").children())
+          // childrenObjs.forEach(function(obj){
+          //   console.log(obj);
+          //   if(response.users.indexOf(obj.attr("id")) === -1){
+          //       obj.remove();
+          //   }
+          // });
         }
       }
     },
