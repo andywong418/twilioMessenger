@@ -3,6 +3,7 @@ var router = express.Router();
 var Message = require('../models').Message
 var User = require('../models').User
 var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+
 router.post('/receiveText', function(req, res){
   console.log(req.body);
   var message = req.body.Body.split(" ")
@@ -68,3 +69,5 @@ router.post('/receiveText', function(req, res){
     });
   }
 });
+
+module.exports = router;
