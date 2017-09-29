@@ -74,7 +74,7 @@ function updateUsers(){
           }
         }
         else if(response.users.length < ($("#users_ul_container").children().length-1)){
-
+          console.log($("#users_ul_container").children());
         }
       }
     },
