@@ -58,18 +58,73 @@ router.post('/receiveText', function(req, res){
       }
     });
   }
-  else if (req.body.Body === "Logout"){
-    User.remove({number: req.body.From}, function(err, user){
-      var message = client.messages.create({
-        to: req.body.From,
-        from: "(207) 248-8331",
-        body: "Thank you, hopefully we will see you again. Good bye!",
-      })
-      res.end();
+  else if (message[0] === "Logout"){
+    //Check if user registered
+    User.findOne({number: req.body.From}, function(err, user){
+      if(!user){
+        var message = client.messages.create({
+          to: req.body.From,
+          from: "(207) 248-8331",
+          body: "Please register now!",
+        })
+        res.end();
+
+      } else{
+        // Check if correct number of arguments
+        var message = req.body.Body.split(" ")
+        if(messages.length !== 2){
+          var message = client.messages.create({
+            to: req.body.From,
+            from: "(207) 248-8331",
+            body: "Include correct number of arguments!",
+          })
+          res.end();
+
+        }else{
+            //Check if group exists
+            Group.findOne({name: message[1]}, function(err, group){
+              if(!group){
+                var message = client.messages.create({
+                  to: req.body.From,
+                  from: "(207) 248-8331",
+                  body: "Group does not exist!",
+                })
+                res.end();
+
+              }else{
+                //Check if user in group
+                if(group.regulars.indexOf(user._id.toString()) === -1){
+                  var message = client.messages.create({
+                    to: req.body.From,
+                    from: "(207) 248-8331",
+                    body: "You are not in group!",
+                  })
+                  res.end();
+
+                }else{
+                  // Logout of group
+                  group.regulars.splice(group.regulars.indexOf(user._id.toString()),1);
+                  group.save(function(err, group){
+                    var message = client.messages.create({
+                      to: req.body.From,
+                      from: "(207) 248-8331",
+                      body: "You have left the group!",
+                    })
+                    res.end();
+                  
+                  });
+                }
+              }
+            })
+        }
+      }
     })
+
+
+
+
   }
   else if (message[0] === "Group"){
-    console.log("MESSAGE", message);
     if(message.length !== 2){
       var message = client.messages.create({
         to: req.body.From,
@@ -124,6 +179,7 @@ router.post('/receiveText', function(req, res){
     }
   }
   else{
+    //message case
     User.findOne({number: req.body.From}, function(err, userMessage){
       if (userMessage){
         Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
