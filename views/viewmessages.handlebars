@@ -1,5 +1,16 @@
-<ul id="messages_ul_container">
-  {{#each messages}}
-    <li class="message_to_display"><img class="profile_img" src="{{this.sender.imgURL}}"> [{{this.sender.name}}]: {{this.content}}</li>
-  {{/each}}
-</ul>
+
+
+<div id="message_text_container">
+  <ul id="messages_ul_container">
+    {{#each messages}}
+      <li class="message_to_display"><img class="profile_img" src="{{this.sender.imgURL}}"> [{{this.sender.name}}]: {{this.content}}</li>
+    {{/each}}
+  </ul>
+
+  <div id="send_message_container">
+    <form id="group-message-form">
+      <input type="text" name="message" id="group-message-input" placeholder="Group Message">
+      <a><span class="glyphicon glyphicon-upload" id="group-message-button"></span></a>
+    </form>
+  </div>
+</div>

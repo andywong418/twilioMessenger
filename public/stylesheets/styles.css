@@ -110,3 +110,20 @@ html, body {
 .time_date {
   float: right;
 }
+
+.login-register-form {
+  padding: 30px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  background-color: transparent;
+  border: 10px solid #3c75cb;
+}
+
+.login-register-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-register-input {
+  margin: 10px 0;
+}

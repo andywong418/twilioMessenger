@@ -8,6 +8,9 @@ var path = require('path');
 var routes = require('./routes/regRoutes.js');
 var auth = require('./routes/auth');
 var User = require('./models').User
+var Admin = require('./models').Admin
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 //setup mongoose connection
 mongoose.connection.on('error', function() {
@@ -33,8 +36,56 @@ User.findOne({number: "123"}, function(err, data){
   }
 })
 
+// Setup the Passport Stuff
+var session = require('express-session');
+app.use(session({ secret: 'keyboard cat' }));
 
- app.use('/', routes);
+// Tell Passport how to set req.user
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+// Tell passport how to read our user models
+passport.use(new LocalStrategy(function(username, password, done) {
+  // Find the user with the given username
+  Admin.findOne({ username: username }, function (err, user) {
+    // if there's an error, finish trying to authenticate (auth failed)
+    if (err) {
+      console.log(err);
+      return done(err);
+    }
+    // if no user present, auth failed
+    if (!user) {
+      console.log(user);
+      return done(null, false);
+    }
+    // if passwords do not match, auth failed
+    if (user.password !== password) {
+      return done(null, false);
+    }
+    // auth has has succeeded
+    return done(null, user);
+  });
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/', auth(passport));
+app.use('/', function(req, res){
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+});
+app.use('/', routes);
 
 
 // catch 404 and forward to error handler

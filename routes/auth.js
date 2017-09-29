@@ -2,8 +2,25 @@ var express = require('express');
 var router = express.Router();
 
 module.exports = function(passport) {
-  // Add Passport-related auth routes here, to the router!
-  // YOUR CODE HERE
+  router.get("/login", function(req, res){
+    res.render("login");
+  });
+
+  router.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+  router.get("/signup", function(req, res){
+    res.render("signup");
+  });
+
+  router.post("/signup", function(req, res){
+    Admin.create({username: req.body.username, password: req.body.password}, function(err){
+      res.redirect("/login");
+    })
+  });
 
   return router;
 }

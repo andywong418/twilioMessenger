@@ -21,6 +21,21 @@ $(document).ready(function(){
     });
   });
 
+  $("#login-register").click(function(event){
+    event.preventDefault();
+    $.ajax({
+      url:"https://stormy-basin-23393.herokuapp.com/login",
+      method: "get"
+    });
+  });
+
+  $("#register-login").click(function(event){
+    event.preventDefault();
+    $.ajax({
+      url:"https://stormy-basin-23393.herokuapp.com/signup",
+      method: "get"
+    });
+  });
 
 
 });
