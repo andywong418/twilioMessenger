@@ -51,6 +51,7 @@ function update(){
     url: "https://stormy-basin-23393.herokuapp.com/users",
     method: "get",
     success: function(response){
+      console.log(response);
       if(response.users !== undefined){
 
         if(response.users.length > $("#users_ul_container").children().length){
