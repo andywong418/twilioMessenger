@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Message = require('../models').Message
-var User = require('../models').User
+var User = require('../models').User;
+var Group = require('../models').Group;
 var client = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 router.post('/receiveText', function(req, res){
