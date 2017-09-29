@@ -31,6 +31,9 @@ router.get('/users', function(req, res){
     if(!err){
       res.send({users: users});
     }
+    else{
+      console.log(err);
+    }
   });
 })
 
