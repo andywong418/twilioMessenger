@@ -178,38 +178,112 @@ router.post('/receiveText', function(req, res){
 
     }
   }
-  else{
+  else if(message[0] === 'Msg'){
     //message case
-    User.findOne({number: req.body.From}, function(err, userMessage){
-      if (userMessage){
-        Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
-          if(!err){
-            User.find(function(err, users){
-              if(!err){
-                var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
-                users.forEach(function(user){
-                  if (user.name !== sentFrom){
-                    var message = client.messages.create({
-                      to: user.number,
-                      from: "(207) 248-8331",
-                      body:  "[" + sentFrom + "]: "  + req.body.Body,
-                    })
-                  }
-                });
-                res.end();
-              }
-            });
-          }
-        });
-      }
-      else{
+    var group = message[1];
+    //1. Are they registered?
+    //2. Do they have right number of arguments
+    //3. Does group exist
+    //4. Are they in group.
+    //6. Cool! send message!
+
+    User.findOne({number: req.body.From}, function(err, user){
+      if(!user){
         var message = client.messages.create({
           to: req.body.From,
           from: "(207) 248-8331",
           body: "You need to register. Do so by texting: New YOUR_NAME IMAGE_URL"
-        })
+        });
+        res.end()
+      } else{
+        var message = req.body.Body.split(" ");
+        if(message.length < 3){
+          var message = client.messages.create({
+            to: req.body.From,
+            from: "(207) 248-8331",
+            body: "You need at least one word!"
+          });
+          res.end();
+        } else{
+          Group.findOne({name: message[1]}).populate('regulars').populate({
+            path: 'admin',
+            populate: {
+              path: 'user',
+              model: 'User'
+            }
+          }).exec(function(err, group){
+            if(group.indexOf(user._id.toString()) === -1){
+              var message = client.messages.create({
+                to: req.body.From,
+                from: "(207) 248-8331",
+                body: "You have to join the group."
+              });
+              res.end();
+            } else{
+              var msg = req.body.Body.split(" ").slice(2).join();
+              console.log("Send message", msg);
+              Message.create({sender: user._id, content: msg}, function(err, message){
+                if(!err){
+                  group.regulars.push(group.admin.user);
+                  console.log("group regulars", group.regulars);
+                  var sentFrom = group.regulars.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+                  console.log("sent from", sentFrom);
+                  group.regulars.forEach(function(user){
+                    if(user.name !== sentFrom){
+                      var message = client.messages.create({
+                        to: user.number,
+                        from: "(207) 248-8331",
+                        body:  "[" + sentFrom + "]: " + msg,
+                      })
+                    }
+                  });
+                  res.end();
+                }
+              })
+            }
+          })
+        }
       }
+    })
+
+    // User.findOne({number: req.body.From}, function(err, userMessage){
+    //   if (userMessage){
+    //     Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
+    //       if(!err){
+    //         User.find(function(err, users){
+    //           if(!err){
+    //             var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
+    //             users.forEach(function(user){
+    //               if (user.name !== sentFrom){
+    //                 var message = client.messages.create({
+    //                   to: user.number,
+    //                   from: "(207) 248-8331",
+    //                   body:  "[" + sentFrom + "]: "  + req.body.Body,
+    //                 })
+    //               }
+    //             });
+    //             res.end();
+    //           }
+    //         });
+    //       }
+    //     });
+    //   }
+    //   else{
+    //     var message = client.messages.create({
+    //       to: req.body.From,
+    //       from: "(207) 248-8331",
+    //       body: "You need to register. Do so by texting: New YOUR_NAME IMAGE_URL"
+    //     });
+    //     res.end();
+    //   }
+    // });
+  } else{
+    var message = client.messages.create({
+      to: req.body.From,
+      from: "(207) 248-8331",
+      body: "Valid commands New, Group, Logout, Msg"
     });
+    res.end();
   }
 });
 
