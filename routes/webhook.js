@@ -45,7 +45,7 @@ router.post('/receiveText', function(req, res){
       var message = client.messages.create({
         to: req.body.From,
         from: "(207) 248-8331",
-        body: user.name + ", good bye!",
+        body: "Thank you, hopefully we will see you again. Good bye!",
       })
       res.end();
     })

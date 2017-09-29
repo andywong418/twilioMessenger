@@ -66,12 +66,21 @@ function updateUsers(){
       console.log($("#users_ul_container").children().length);
       if(response.users !== undefined){
 
-        if(response.users.length > ($("#users_ul_container").children().length-1)){
+        if(response.users.length >($("#users_ul_container").children().length-1)){
           for (var i = ($("#users_ul_container").children().length-1); i < response.users.length; i ++){
             var curUser = response.users[i];
             var messageLi = $(`<li class="user_to_display"><img class="profile_img" src="${curUser.imgURL}"> ${curUser.name}<span class="delete-user glyphicon glyphicon-remove"></span></li>`);
             $('#users_ul_container').append(messageLi);
           }
+        }
+        else if(response.users.length < ($("#users_ul_container").children().length-1)){
+          $.ajax({
+            url: "https://stormy-basin-23393.herokuapp.com/",
+            method: "get",
+            success: function(response){
+              console.log("Nice")
+            }
+          })
         }
       }
     },
