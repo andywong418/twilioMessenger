@@ -23,7 +23,7 @@ router.get('/messages', function(req, res){
 //add a route that will respond to post requests sent by Twilio via
 //webhooks
 
-router.post('/handletext', function(req, res){
+router.post('/receiveText', function(req, res){
   console.log(req.body);
   var message = req.body.Body.split(" ")
   if (message[0] === "New"){
