@@ -216,7 +216,7 @@ router.post('/receiveText', function(req, res){
             console.log("group regulars1 ", group.regulars, user._id);
             var inRegular = false;
             group.regulars.forEach(function(regular){
-              if(regular._id === user._id.toString()){
+              if(regular._id.equals(user._id)){
                 inRegular = true;
               }
             });
