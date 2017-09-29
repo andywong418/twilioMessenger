@@ -40,7 +40,7 @@ router.post('/receiveText', function(req, res){
       }
     });
   }
-  else if (message[0] === "Logout"){
+  else if (req.body.Body === "Logout"){
     User.delete({number: req.body.From}, function(err, user){
       var message = client.messages.create({
         to: req.body.From,

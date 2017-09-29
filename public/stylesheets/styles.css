@@ -164,7 +164,10 @@ html, body {
   margin-top: 5px;
 }
 
+.delete-user:hover {
+  cursor: pointer;
+}
+
 .user_to_display {
   margin: 5px 0;
-
 }
