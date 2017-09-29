@@ -72,7 +72,7 @@ router.post('/receiveText', function(req, res){
       } else{
         // Check if correct number of arguments
         var message = req.body.Body.split(" ")
-        if(messages.length !== 2){
+        if(message.length !== 2){
           var message = client.messages.create({
             to: req.body.From,
             from: "(207) 248-8331",
@@ -111,7 +111,7 @@ router.post('/receiveText', function(req, res){
                       body: "You have left the group!",
                     })
                     res.end();
-                  
+
                   });
                 }
               }
