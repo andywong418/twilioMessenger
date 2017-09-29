@@ -22,7 +22,15 @@ $(document).ready(function(){
   });
 
   $("body").on('click', '.delete-user', function(event){
-    alert();
+    var username = $(this).parent().text().trim();
+    $(this).parent().remove();
+    $.ajax({
+      url: "https://stormy-basin-23393.herokuapp.com/connection/" + username,
+      method: "delete",
+      success: function(response){
+        console.log("Removed")
+      }
+    });
   })
 });
 
@@ -49,7 +57,7 @@ function update(){
 
   $.ajax({
     url: "https://stormy-basin-23393.herokuapp.com/users",
-    method: "pget",
+    method: "get",
     success: function(response){
       console.log(response);
       if(response.users !== undefined){

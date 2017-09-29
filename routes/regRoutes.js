@@ -65,4 +65,14 @@ router.post('/grouptext', function(req, res){
   });
 });
 
+
+router.delete('/connection/:username', function(req, res){
+  console.log("here")
+  User.remove({name: req.params.username}, function(err){
+    if(!err) {
+      res.send("Success");
+    }
+  });
+})
+
 module.exports = router;
