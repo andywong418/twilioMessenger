@@ -40,11 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect(process.env.MONGODB_URI);
 app.use(session({
-  secret: 'keyboard cat',
-  store: new MongoStore({mongooseConnection: mongoose.connection}),
-  proxy: true,
-  resave: false,
-  saveUninitialized: true
+  secret: 'keyboard cat'
 }));
 
 // Tell Passport how to set req.user
