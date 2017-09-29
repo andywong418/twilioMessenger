@@ -13,7 +13,8 @@ var Admin = require('./models').Admin;
 var Group = require('./models').Group;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 //setup mongoose connection
 mongoose.connection.on('error', function() {
   console.log('error connecting to database')
@@ -34,11 +35,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Add Admin account if not yet added
 
 // Setup the Passport Stuff
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
 
 
 
+mongoose.connect(process.env.MONGODB_URI);
 app.use(session({
   secret: 'keyboard cat',
   store: new MongoStore({mongooseConnection: mongoose.connection}),
