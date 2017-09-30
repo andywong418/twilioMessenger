@@ -13,6 +13,7 @@ var Admin = require('./models').Admin;
 var Group = require('./models').Group;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 //setup mongoose connection
@@ -76,7 +77,44 @@ passport.use(new LocalStrategy(function(username, password, done) {
     return done(null, user);
   });
 }));
+//regular person signs up.
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  profileFields: ['id', 'displayName', 'location', 'gender', 'photos', 'hometown'],
+  scope: ['user_birthday', 'user_location', 'user_hometown']
+}, function(accessToken, refreshToken, profile, done){
+  console.log("CALLBACK", profile._json);
+  User.findOne({facebookId: profile.id}, function(err, user){
+    if(!user){
+      //sort into new group;
 
+      User.create({imgURL: profile.photos[0].value, name: profile.displayName, facebookId: profile.id}, function(err, user){
+        console.log("LOCATION", profile._json.location.name);
+        Group.find({$or: [{location: profile._json.location.name}, {gender: profile.gender}]}, function(err, groups){
+          console.log("GROUPS", groups);
+          if(groups.length > 0){
+            console.log("ADDED TO GROUP");
+            var rand = Math.floor(Math.random() * groups.length);
+            groups[rand].regulars.push(user.id);
+            groups[rand].save(function(err, group){
+              done(null, user);
+            })
+          } else{
+            done(null, null);
+          }
+
+        })
+      })
+
+    } else{
+      console.log("WHAT", user);
+      done(null, user);
+    }
+  })
+
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

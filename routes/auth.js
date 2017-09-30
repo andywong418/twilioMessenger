@@ -47,6 +47,10 @@ module.exports = function(passport) {
     req.logout();
     res.redirect("/login");
   });
+  router.get('/auth/facebook/', passport.authenticate('facebook'));
 
+  router.get('/auth/facebook/callback', passport.authenticate('facebook'), function(req, res){
+    res.json(req.user);
+  })
   return router;
 }

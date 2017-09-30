@@ -18,7 +18,8 @@ var messageSchema = new Schema ({
 var userSchema = new Schema ({
   number: String,
   imgURL: String,
-  name: String
+  name: String,
+  facebookId: String
 });
 
 var adminSchema = new Schema ({
@@ -39,7 +40,10 @@ var groupSchema = new Schema({
   name: {
     type: String
   },
-  groupImgURL: String
+  groupImgURL: String,
+  location: String,
+  gender: String,
+  meetingFor: String
 
 });
 
