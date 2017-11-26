@@ -253,38 +253,6 @@ router.post('/receiveText', function(req, res){
         }
       }
     })
-
-    // User.findOne({number: req.body.From}, function(err, userMessage){
-    //   if (userMessage){
-    //     Message.create({sender: userMessage, content: req.body.Body, receivedAt: (new Date()).toLocaleTimeString()}, function(err){
-    //       if(!err){
-    //         User.find(function(err, users){
-    //           if(!err){
-    //             var sentFrom = users.reduce((name, x) => x.number === req.body.From ? x.name : name, "Error");
-    //             users.forEach(function(user){
-    //               if (user.name !== sentFrom){
-    //                 var message = client.messages.create({
-    //                   to: user.number,
-    //                   from: "(207) 248-8331",
-    //                   body:  "[" + sentFrom + "]: "  + req.body.Body,
-    //                 })
-    //               }
-    //             });
-    //             res.end();
-    //           }
-    //         });
-    //       }
-    //     });
-    //   }
-    //   else{
-    //     var message = client.messages.create({
-    //       to: req.body.From,
-    //       from: "(207) 248-8331",
-    //       body: "You need to register. Do so by texting: New YOUR_NAME IMAGE_URL"
-    //     });
-    //     res.end();
-    //   }
-    // });
   } else{
     var message = client.messages.create({
       to: req.body.From,
