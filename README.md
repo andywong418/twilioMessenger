@@ -1,6 +1,5 @@
 # twilioMessenger
-Using text commands and Twilio API, people are able to join groups and broadcast messages to others in a group, managed by an admin as shown below.
-![]('./docs/dashboard.png?raw=true')
+Using text commands and Twilio API, people are able to join groups and broadcast messages to others in a group, managed by an admin as shown in ('./docs/dashboard.png')
 
 Groups can be joined by texting 'New Group [groupname]' to a master Twilio number which handles the webhooks via the Twilio API.
 
